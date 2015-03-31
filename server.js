@@ -1,37 +1,96 @@
-// Use require to get access to the Node
-// http library and store it in a variable.
-var http = require("http");
+// forked
+// cloned
+// subl .
+// npm init
+// npm install --save express
+//nodemon server.js  ==> opens the server...connects file to browser.
+//then open browser
 
-// Define a function doStuff that take in two
-// parameters, one for the request called req,
-// and one for the response called res.
+// At the top of our file we declare variables
+// for all of the packages we're going to use
+// in the file. For this example, we'll only need
+// be using a single package called 'express'.
+// We `require('express')` and save the results
+// in an appropriately named variable.
 
-var doStuff = function(req, res) {
+var express = require('express');
 
-  // Writes the Head of the response with status
-  // code 200, specifying that the request is OK,
-  // and the body of the response will be given
-  // in plain text
+// Next we declare a variable that instantiates
+// the express server. Common names for this
+// variable include `app` or `server`. We're
+// going to call it `app` because that's what
+// they do in the express documentation.
 
-  res.writeHead(200, {"Content-Type": "text/plain"});
+var app = express();
 
-  // Writes the body of the response with the content
-  // 'Hello World'
+// Now that we have an app to build off of,
+// we should set up some routes.
 
-  res.write("Hello World");
+// The pattern for setting up routes in express is as follows
+// 
+// app . HTTP-VERB ( '/ROUTE/PATH/DELIMITED/BY/SLASHES' , function(req,res) { // DO STUFF HERE // });
 
-  // Send the response back
 
-  res.end();
-};
+// Our first route will be `GET /` which will respond
+// with "Hello World" for every request that
+// comes in to your server.
 
-// Creates a server with the doStuff function
-// that will respond to requests and send responses
-// as specified.
+//This URL: http://localhost:3000/
+//is equivalent to the follwoing route...
+app.get('/', function(req,res) {
 
-var server = http.createServer(doStuff);
+  // Send back the response 'Hello World'
 
-// Tell the server to start listening for request on
-// port 3000
+  res.send("URL Calculator");
+});
 
-server.listen(3000);
+app.get('/hey', function(req,res) {
+  res.send("<html><body><h1>Hey! Look at me!</h1><p>I made a server!</p></body></html>")
+});
+
+app.get('/hi/:name', function(req, res) {
+  res.send("<html><body><h1>Hi, I'm "  + req.params.name + ".</h1></body></html>")
+});
+
+app.get('/add/:x/:y', function(req, res) {
+  //var x = Number(req.params.x); 
+  //var y = Number(req.params.y); 
+  //var total = x + y;
+  //res.send("The total is: " + total);
+  res.send("The total is: " + (Number(req.params.x) + (Number(req.params.y))));
+});
+
+app.get('/subtract/:x/:y', function(req, res) {
+  //var x = Number(req.params.x); 
+  //var y = Number(req.params.y); 
+  //var total = x - y;
+  //res.send("The total is: " + total);
+  res.send("The total is: " + (Number(req.params.x) - (Number(req.params.y))));
+});
+
+app.get('/multiply/:x/:y', function(req, res) {
+  //var x = Number(req.params.x); 
+  //var y = Number(req.params.y); 
+  //var total = x * y;
+  //res.send("The total is: " + total);
+  res.send("The total is: " + (Number(req.params.x) * (Number(req.params.y))));
+});
+
+app.get('/divide/:x/:y', function(req, res) {
+  //var x = Number(req.params.x); 
+  //var y = Number(req.params.y); 
+  //var total = x / y;
+  //res.send("The total is: " + total);
+  res.send("The total is: " + (Number(req.params.x) / (Number(req.params.y))));
+});
+
+
+// Tell the app to start listening for
+// requests on port 3000.
+
+app.listen(3000);
+
+
+// git add
+// git commit -m
+// git push origin master
